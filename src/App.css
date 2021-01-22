@@ -23,7 +23,8 @@
 }
 
 .middle {
-    width: 500px;
+    max-width: 500px;
+    width: 90%;
     margin: auto;
 }
 
@@ -35,8 +36,9 @@
 }
 
 .participant-input {
-    width: 500px;
-    margin: auto;
+    max-width: 500px !important;
+    width: 90% !important;
+    margin: auto !important;
 }
 
 .MuiFormControl-root {
@@ -49,7 +51,6 @@
     margin-left: auto !important;
     margin-right: auto !important;
     margin-top: 10px;
-    width: 60% !important;
     cursor: pointer;
     background-color: #16213e !important;
 }
