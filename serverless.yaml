@@ -1,0 +1,42 @@
+service:
+  name: feedback-sessions
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  stage: dev
+  profile: tmarinkovic
+
+functions:
+
+resources:
+  Resources:
+    FeedbackSessions:
+      Type: AWS::S3::Bucket
+      Properties:
+        AccessControl: PublicRead
+        BucketName: feedback-sessions
+        WebsiteConfiguration:
+          IndexDocument: index.html
+    StaticSiteS3BucketPolicy:
+      Type: AWS::S3::BucketPolicy
+      Properties:
+        Bucket:
+          Ref: FeedbackSessions
+        PolicyDocument:
+          Statement:
+            - Sid: PublicReadGetObject
+              Effect: Allow
+              Principal: "*"
+              Action:
+                - s3:GetObject
+              Resource:
+                Fn::Join: [
+                    "", [
+                      "arn:aws:s3:::",
+                    {
+                      "Ref": "FeedbackSessions"
+                    },
+                      "/*"
+                  ]
+                ]

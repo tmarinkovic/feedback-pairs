@@ -3,16 +3,16 @@ export const REMOVE_PARTICIPANT = "REMOVE_PARTICIPANTS"
 
 
 const initState = {
-    participants: ["a","b","c","d"]
+    participants: []
 }
 
-const Reducer = (state=initState,action) => {
-    switch (action.type){
+const Reducer = (state = initState, action) => {
+    switch (action.type) {
 
         case ADD_PARTICIPANT:
             return {
                 ...state,
-                participants:[...state.participants, action.participant]
+                participants: [...state.participants, action.participant]
             }
 
         case REMOVE_PARTICIPANT:
@@ -21,7 +21,7 @@ const Reducer = (state=initState,action) => {
             participants.splice(indexOfParticipantToRemove, 1)
             return {
                 ...state,
-                participants:participants
+                participants: participants
             }
 
         default:

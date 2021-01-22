@@ -1,6 +1,13 @@
+:root {
+    --accent-color: #e94560;
+    --text-color: white;
+}
+
 .App {
     text-align: center;
     padding: 20px;
+    min-height: 100vh;
+    background-color: #1a1a2e;
 }
 
 .paper {
@@ -8,7 +15,11 @@
     margin: 20px;
     color: white !important;
     font-weight: bold;
-    background-color: darkslateblue !important;
+    background-color: #0f3460 !important;
+}
+
+.chip-input-label {
+    color: var(--text-color)
 }
 
 .middle {
@@ -20,6 +31,7 @@
     width: 100%;
     margin-top: 20px !important;
     margin-bottom: 20px !important;
+    background-color: var(--accent-color) !important;
 }
 
 .participant-input {
@@ -36,12 +48,13 @@
     border-radius: 10px;
     margin-left: auto !important;
     margin-right: auto !important;
-    margin-top:10px;
-    width:70% !important;
+    margin-top: 10px;
+    width: 60% !important;
     cursor: pointer;
+    background-color: #16213e !important;
 }
 
-.highlight{
+.highlight {
     border: 2px solid red;
 }
 
@@ -51,14 +64,15 @@
     height: 15px;
     background-color: deepskyblue;
     border-radius: 15px;
-    color: darkblue;
+    color: #1a1a2e;
     font-size: 10px;
     font-weight: bold;
     line-height: 15px;
 }
 
 .loading {
-    margin:auto;
+    margin: auto;
+    color: var(--accent-color);
     width: 50px !important;
     height: 50px !important;
 }

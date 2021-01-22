@@ -4,6 +4,6 @@ import React from "react";
 export const Loading = ({display}) => {
 
     return (
-        <CircularProgress className="loading" style={{display: display}}/>
+        <CircularProgress color={'#e94560'} className="loading" style={{display: display}}/>
     )
 }
