@@ -6,46 +6,15 @@ import {useSelector} from 'react-redux';
 import {Schedule} from "./component/schedule/schedule";
 import {Loading} from "./component/loading/loading";
 import {Notification} from "./component/notification/notification";
-
-const matcher = require('./macher/Matcher').default;
+import {getParticipantColors} from "./functions/colors-manager/colorsManager";
+import matcher from "./functions/macher/Matcher";
 
 const App = () => {
     const participants = useSelector(state => state.participants)
     const [pairs, setPairs] = useState([]);
-    const [colors, setColors] = useState({});
-    const [display, setDisplay] = useState("none");
+    const [participantColors, setParticipantColors] = useState({});
+    const [displayNotification, setDisplayNotification] = useState("none");
     const [notification, setNotification] = useState({show:false, text: ""});
-
-
-    const getColors = pairs => {
-        let assignedColors = {}
-
-        const colorList = [
-            '#b9f261',
-            '#99b851',
-            '#61f2ca',
-            '#51b892',
-            '#fae058',
-            '#ffbf54',
-            '#f76865',
-            '#bf585e',
-            '#41a6f6',
-            '#73eff7',
-            '#f4f4f4',
-            '#94b0c2',
-            '#ffcd75',
-            '#38b764',
-        ]
-
-        let counter = 0
-        pairs.forEach(pair=> {
-            pair.forEach(participant=> {
-                assignedColors[participant] = colorList[counter]
-                counter++
-            })
-        })
-       setColors(assignedColors)
-    }
 
     const onButtonClick = () => {
 
@@ -60,17 +29,17 @@ const App = () => {
         }
 
         if (participants.length !== 0) {
-            setDisplay("block")
+            setDisplayNotification("block")
             setTimeout(function () {
                 return matcher([...participants])
                     .then(result => {
-                        getColors(result[0])
+                        setParticipantColors(getParticipantColors(result[0]))
                         return setPairs(result)
                     })
-                    .then(_ => setDisplay("none"))
-                    .catch(error => {
+                    .then(_ => setDisplayNotification("none"))
+                    .catch(_ => {
                         setNotification({show:true, text: "We are having issue computing this! Please try again or try with less participants."})
-                        setDisplay("none")
+                        setDisplayNotification("none")
                     })
             }, 500);
         }
@@ -78,7 +47,7 @@ const App = () => {
 
     return (
         <div className="App">
-            <Loading display={display}/>
+            <Loading display={displayNotification}/>
             <div className="middle">
                 <Notification
                     notification = {notification}
@@ -90,10 +59,10 @@ const App = () => {
                     variant="contained"
                     color="primary"
                     onClick={() => onButtonClick()}>
-                    Generate pairs
+                    Pair
                 </Button>
             </div>
-            <Schedule schedule={pairs} colors={colors}/>
+            <Schedule schedule={pairs} colors={participantColors}/>
         </div>
     );
 }
