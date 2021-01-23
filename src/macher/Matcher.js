@@ -1,53 +1,60 @@
 const matcher = participants => {
 
+    let tryouts = 0
     let matchedPairs = []
     let schedule = []
     let tryCounterPairs = 0;
 
     const createSessions = (pairs, sessionsPerTurn, numberOfTurns) => {
-        let originalPairs = [...pairs]
+        return new Promise((resolve, reject) => {
+            let originalPairs = [...pairs]
 
-        while (schedule.length !== numberOfTurns) {
-            let tempPairs = pairs
-            let possibleSession = []
-            let alreadyAddedParticipant = []
-            while (possibleSession.length !== sessionsPerTurn) {
-                let randomPairIndex = Math.floor((Math.random() * pairs.length));
-                let pair = pairs[randomPairIndex]
-                if (matchedPairs.includes(pair)) {
-                    continue
-                }
-                if (
-                    pair === undefined ||
-                    alreadyAddedParticipant.includes(pair[0]) ||
-                    alreadyAddedParticipant.includes(pair[1])
-                ) {
-                    tryCounterPairs++
-                    if (tryCounterPairs > 100) {
-                        break
+            while (schedule.length !== numberOfTurns) {
+                let tempPairs = pairs
+                let possibleSession = []
+                let alreadyAddedParticipant = []
+                while (possibleSession.length !== sessionsPerTurn) {
+                    let randomPairIndex = Math.floor((Math.random() * pairs.length));
+                    let pair = pairs[randomPairIndex]
+                    if (matchedPairs.includes(pair)) {
+                        continue
                     }
+                    if (
+                        pair === undefined ||
+                        alreadyAddedParticipant.includes(pair[0]) ||
+                        alreadyAddedParticipant.includes(pair[1])
+                    ) {
+                        tryCounterPairs++
+                        if (tryCounterPairs > 100) {
+                            break
+                        }
+                        continue
+                    }
+                    tryCounterPairs = 0
+                    possibleSession.push(pairs[randomPairIndex])
+                    alreadyAddedParticipant.push(pair[0])
+                    alreadyAddedParticipant.push(pair[1])
+                    tempPairs.splice(randomPairIndex, 1)
+                }
+
+                if (tryCounterPairs > 100) {
+                    tryouts++
+                    if (tryouts > 100000) {
+                        reject(new Error('Execution timed out'))
+                    }
+                    pairs = [...originalPairs]
+                    matchedPairs = []
+                    schedule = []
+                    tryCounterPairs = 0;
                     continue
                 }
-                tryCounterPairs = 0
-                possibleSession.push(pairs[randomPairIndex])
-                alreadyAddedParticipant.push(pair[0])
-                alreadyAddedParticipant.push(pair[1])
-                tempPairs.splice(randomPairIndex, 1)
+
+                schedule.push(possibleSession)
+                pairs = tempPairs
             }
 
-            if (tryCounterPairs > 100) {
-                pairs = [...originalPairs]
-                matchedPairs = []
-                schedule = []
-                tryCounterPairs = 0;
-                continue
-            }
-
-            schedule.push(possibleSession)
-            pairs = tempPairs
-        }
-
-        return schedule
+            resolve(schedule)
+        });
     }
 
     const createPairs = participants => {
@@ -68,7 +75,9 @@ const matcher = participants => {
         const numberOfTurns = participants.length - 1
         let pairs = createPairs(participants)
         return new Promise((resolve, reject) => {
-            resolve(createSessions(pairs, sessionsPerTurn, numberOfTurns));
+            createSessions(pairs, sessionsPerTurn, numberOfTurns)
+                .then(result => resolve(result))
+                .catch(error => reject(new Error(error)))
         });
     })()
 }
