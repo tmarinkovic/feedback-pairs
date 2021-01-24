@@ -1,5 +1,6 @@
 {
   "name": "meetings-creator",
+  "homepage": "https://tmarinkovic.github.io/feedback-pairs",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -21,7 +22,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy": "npm run build && aws s3 sync build/ s3://feedback-sessions --profile tmarinkovic"
+    "deploy-aws": "npm run build && aws s3 sync build/ s3://feedback-sessions --profile tmarinkovic",
+    "predeploy":"npm run build",
+    "deploy":"gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -40,5 +43,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "gh-pages": "^3.1.0"
   }
 }
