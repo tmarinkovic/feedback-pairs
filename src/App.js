@@ -28,6 +28,11 @@ const App = () => {
             return
         }
 
+        if(participants.includes("Wait")){
+            setNotification({show: true, text: "Wait is reserved word, please remove it from list of participants"})
+            return
+        }
+
         if (participants.length !== 0) {
             setDisplayNotification("block")
             setTimeout(function () {
