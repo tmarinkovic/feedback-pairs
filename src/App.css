@@ -78,3 +78,22 @@
     width: 50px !important;
     height: 50px !important;
 }
+
+.tooltip-container{
+    margin-top: 5px;
+}
+
+.tooltip{
+    color:white;
+    float:right;
+    font-size: 12px;
+    margin-left:5px;
+    line-height: 20px;
+    margin-right:25px;
+}
+
+.enter-button{
+    width: 20px;
+    height: 20px;
+    float:right;
+}

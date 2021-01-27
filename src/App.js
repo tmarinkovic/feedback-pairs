@@ -14,17 +14,17 @@ const App = () => {
     const [pairs, setPairs] = useState([]);
     const [participantColors, setParticipantColors] = useState({});
     const [displayNotification, setDisplayNotification] = useState("none");
-    const [notification, setNotification] = useState({show:false, text: ""});
+    const [notification, setNotification] = useState({show: false, text: ""});
 
     const onButtonClick = () => {
 
         if (participants.length < 3) {
-            setNotification({show:true, text: "Less than 3 participants is not supported!"})
+            setNotification({show: true, text: "Less than 3 participants is not supported!"})
             return
         }
 
         if (participants.length > 14) {
-            setNotification({show:true, text: "More than 14 participants is not supported!"})
+            setNotification({show: true, text: "More than 14 participants is not supported!"})
             return
         }
 
@@ -38,7 +38,10 @@ const App = () => {
                     })
                     .then(_ => setDisplayNotification("none"))
                     .catch(_ => {
-                        setNotification({show:true, text: "We are having issue computing this! Please try again or try with less participants."})
+                        setNotification({
+                            show: true,
+                            text: "We are having issue computing this! Please try again or try with less participants."
+                        })
                         setDisplayNotification("none")
                     })
             }, 500);
@@ -50,10 +53,14 @@ const App = () => {
             <Loading display={displayNotification}/>
             <div className="middle">
                 <Notification
-                    notification = {notification}
-                    setNotification= {setNotification}
+                    notification={notification}
+                    setNotification={setNotification}
                 />
                 <FeedbackParticipants/>
+                <div className="tooltip-container">
+                    <span className="tooltip">add participant</span>
+                    <img className="enter-button" src={process.env.PUBLIC_URL + '/enter-key.png'} alt="enter key"/>
+                </div>
                 <Button
                     className="create-pairs-button"
                     variant="contained"
@@ -61,6 +68,7 @@ const App = () => {
                     onClick={() => onButtonClick()}>
                     Pair
                 </Button>
+
             </div>
             <Schedule schedule={pairs} colors={participantColors}/>
         </div>
