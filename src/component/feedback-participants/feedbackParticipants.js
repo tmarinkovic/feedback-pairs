@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
+import React from 'react';
 import ChipInput from "material-ui-chip-input";
 import {makeStyles} from '@material-ui/core/styles';
-import {useDispatch} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import {ADD_PARTICIPANT, REMOVE_PARTICIPANT} from "../../reducer/reducer";
 
 export const FeedbackParticipants = () => {
@@ -20,13 +20,12 @@ export const FeedbackParticipants = () => {
         },
     });
 
-    const [tags, setTags] = useState([]);
+    const participants = useSelector(state => state.participants)
     const classes = useStyles();
     const dispatch = useDispatch()
     const ChipInputLabel = () => <span className="chip-input-label">Participants</span>
 
     const handleAddChip = (chip) => {
-        setTags([...tags, chip])
         dispatch({
             type: ADD_PARTICIPANT,
             participant: chip
@@ -34,10 +33,6 @@ export const FeedbackParticipants = () => {
     }
 
     const handleDeleteChip = (chip) => {
-        const newTags = [...tags]
-        const indexOfTagToRemove = newTags.indexOf(chip)
-        newTags.splice(indexOfTagToRemove, 1)
-        setTags(newTags)
         dispatch({
             type: REMOVE_PARTICIPANT,
             participant: chip
@@ -52,7 +47,7 @@ export const FeedbackParticipants = () => {
                     input: classes.input,
                     chip: classes.chip
                 }}
-                value={tags}
+                value={participants}
                 onAdd={(chip) => handleAddChip(chip)}
                 onDelete={(chip, index) => handleDeleteChip(chip, index)}
             />

@@ -2,19 +2,28 @@ import './App.css';
 import {FeedbackParticipants} from "./component/feedback-participants/feedbackParticipants";
 import {Button} from "@material-ui/core";
 import React, {useState} from 'react';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {Schedule} from "./component/schedule/schedule";
 import {Loading} from "./component/loading/loading";
 import {Notification} from "./component/notification/notification";
 import {getParticipantColors} from "./functions/colors-manager/colorsManager";
 import matcher from "./functions/macher/Matcher";
+import {initializeSessions} from './sessionFactory'
 
 const App = () => {
     const participants = useSelector(state => state.participants)
     const [pairs, setPairs] = useState([]);
+    const dispatch = useDispatch()
     const [participantColors, setParticipantColors] = useState({});
     const [displayNotification, setDisplayNotification] = useState("none");
     const [notification, setNotification] = useState({show: false, text: ""});
+
+    const configurePairs = result => {
+        setPairs(result)
+        setParticipantColors(getParticipantColors(result[0]))
+    }
+
+    initializeSessions(dispatch, pairs, configurePairs)
 
     const onButtonClick = () => {
 
@@ -28,7 +37,7 @@ const App = () => {
             return
         }
 
-        if(participants.includes("Wait")){
+        if (participants.includes("Wait")) {
             setNotification({show: true, text: "Wait is reserved word, please remove it from list of participants"})
             return
         }
@@ -38,8 +47,7 @@ const App = () => {
             setTimeout(function () {
                 return matcher([...participants])
                     .then(result => {
-                        setParticipantColors(getParticipantColors(result[0]))
-                        return setPairs(result)
+                        configurePairs(result)
                     })
                     .then(_ => setDisplayNotification("none"))
                     .catch(_ => {
@@ -79,4 +87,5 @@ const App = () => {
         </div>
     );
 }
+
 export default App;
