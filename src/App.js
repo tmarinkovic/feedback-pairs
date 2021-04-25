@@ -8,7 +8,7 @@ import {Loading} from "./component/loading/loading";
 import {Notification} from "./component/notification/notification";
 import {getParticipantColors} from "./functions/colors-manager/colorsManager";
 import matcher from "./functions/macher/Matcher";
-import {initializeSessions} from './sessionFactory'
+import {initializeSessions, storeSession} from './sessionFactory'
 
 const App = () => {
     const participants = useSelector(state => state.participants)
@@ -48,6 +48,7 @@ const App = () => {
                 return matcher([...participants])
                     .then(result => {
                         configurePairs(result)
+                        storeSession("123", result)
                     })
                     .then(_ => setDisplayNotification("none"))
                     .catch(_ => {
