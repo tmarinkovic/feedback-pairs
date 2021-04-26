@@ -47,12 +47,13 @@ export const initializeSessions = (dispatch, pairs, configurePairs) => {
                     return
                 }
                 const pairs = JSON.parse(response.pairs.S)
-                configurePairs(pairs)
-
-                pairs[0].flat().map(participant => dispatch({
-                    type: ADD_PARTICIPANT,
-                    participant: participant
-                }))
+                if(pairs.length !== 0){
+                    configurePairs(pairs)
+                    pairs[0].flat().map(participant => dispatch({
+                        type: ADD_PARTICIPANT,
+                        participant: participant
+                    }))
+                }
             });
         }
 

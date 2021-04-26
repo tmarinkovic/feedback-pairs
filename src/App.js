@@ -9,6 +9,7 @@ import {Notification} from "./component/notification/notification";
 import {getParticipantColors} from "./functions/colors-manager/colorsManager";
 import matcher from "./functions/macher/Matcher";
 import {initializeSessions, storeSession} from './sessionFactory'
+import {REMOVE_PARTICIPANT} from "./reducer/reducer";
 
 const App = () => {
     const participants = useSelector(state => state.participants)
@@ -19,13 +20,35 @@ const App = () => {
     const [notification, setNotification] = useState({show: false, text: ""});
 
     const configurePairs = result => {
+        console.log('configurePairs')
+        console.log(result)
         setPairs(result)
         setParticipantColors(getParticipantColors(result[0]))
     }
 
     initializeSessions(dispatch, pairs, configurePairs)
 
-    const onButtonClick = () => {
+    const onShareButtonClick = () => {
+        const input = document.body.appendChild(document.createElement("input"));
+        input.value = window.location
+        input.focus();
+        input.select();
+        document.execCommand('copy');
+        input.parentNode.removeChild(input);
+        window.scrollTo(0, 0)
+        setNotification({show: true, text: "Link copied to clipboard!"})
+    }
+
+    const onClearButtonClick = () => {
+        participants.map(participant => dispatch({
+            type: REMOVE_PARTICIPANT,
+            participant: participant
+        }))
+        setPairs([])
+        storeSession([])
+    }
+
+    const onPairButtonClick = () => {
 
         if (participants.length < 3) {
             setNotification({show: true, text: "Less than 3 participants is not supported!"})
@@ -79,8 +102,22 @@ const App = () => {
                     className="create-pairs-button"
                     variant="contained"
                     color="primary"
-                    onClick={() => onButtonClick()}>
+                    onClick={() => onPairButtonClick()}>
                     Pair
+                </Button>
+                <Button
+                    className="clear-pairs-button"
+                    variant="contained"
+                    color="primary"
+                    onClick={() => onClearButtonClick()}>
+                    Clear
+                </Button>
+                <Button
+                    className="share-pairs-button"
+                    variant="contained"
+                    color="default"
+                    onClick={() => onShareButtonClick()}>
+                    Share
                 </Button>
 
             </div>
