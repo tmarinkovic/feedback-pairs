@@ -48,7 +48,7 @@ const App = () => {
                 return matcher([...participants])
                     .then(result => {
                         configurePairs(result)
-                        storeSession("123", result)
+                        storeSession(result)
                     })
                     .then(_ => setDisplayNotification("none"))
                     .catch(_ => {
