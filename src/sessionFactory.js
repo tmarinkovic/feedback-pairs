@@ -3,7 +3,7 @@ import {ADD_PARTICIPANT} from "./reducer/reducer";
 const {v4: uuidv4} = require('uuid');
 const fetchUrl = require("fetch").fetchUrl;
 let runOnce = true;
-const backendURL = "https://4bcwdn36od.execute-api.eu-west-2.amazonaws.com/dev/session/";
+const backendURL = "https://widfn7ivkg.execute-api.eu-west-2.amazonaws.com/dev/session/";
 
 const getSessionId = () => {
     const pathName = window.location.pathname.split("/");

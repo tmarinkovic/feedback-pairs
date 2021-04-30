@@ -36,7 +36,7 @@ const App = () => {
         document.execCommand('copy');
         input.parentNode.removeChild(input);
         window.scrollTo(0, 0)
-        setNotification({show: true, text: "Link copied to clipboard!"})
+        setNotification({show: true, text: "Link copied to clipboard! Session will be valid for 24hours!"})
     }
 
     const onClearButtonClick = () => {
@@ -46,6 +46,7 @@ const App = () => {
         }))
         setPairs([])
         storeSession([])
+        setNotification({show: true, text: "Removed all participants!"})
     }
 
     const onPairButtonClick = () => {
