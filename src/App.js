@@ -12,7 +12,8 @@ import {initializeSessions, storeSession} from './sessionFactory'
 import {REMOVE_PARTICIPANT} from "./reducer/reducer";
 
 const App = () => {
-    const participants = useSelector(state => state.participants)
+    const state = useSelector(state => state)
+    const participants = state.participants
     const [pairs, setPairs] = useState([]);
     const dispatch = useDispatch()
     const [participantColors, setParticipantColors] = useState({});
@@ -24,7 +25,7 @@ const App = () => {
         setParticipantColors(getParticipantColors(result[0]))
     }
 
-    initializeSessions(dispatch, pairs, configurePairs)
+    initializeSessions(dispatch, pairs, configurePairs, state)
 
     const onShareButtonClick = () => {
         const input = document.body.appendChild(document.createElement("input"));
@@ -43,7 +44,7 @@ const App = () => {
             participant: participant
         }))
         setPairs([])
-        storeSession([])
+        storeSession([], state.id)
         setNotification({show: true, text: "Removed all participants!"})
     }
 
@@ -70,7 +71,8 @@ const App = () => {
                 return matcher([...participants])
                     .then(result => {
                         configurePairs(result)
-                        storeSession(result)
+                        console.log(state)
+                        storeSession(result, state.sessionId)
                     })
                     .then(_ => setDisplayNotification("none"))
                     .catch(_ => {
