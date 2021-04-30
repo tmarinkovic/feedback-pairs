@@ -6,8 +6,8 @@ let runOnce = true;
 const backendURL = "https://widfn7ivkg.execute-api.eu-west-2.amazonaws.com/dev/session/";
 
 const getSessionId = () => {
-    const pathName = window.location.pathname.split("/");
-    return pathName[pathName.length - 1]
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('sessionId');
 }
 
 export const storeSession = (pairs) => {
@@ -30,11 +30,8 @@ export const initializeSessions = (dispatch, pairs, configurePairs) => {
     let sessionId = uuidv4()
     const id = getSessionId()
     let url = window.location.href.replace(/\/$/, "");
-    if (id === '') {
-        window.location.href = url
-    }
-    if (!url.includes('session::')) {
-        url = url + '/session::' + sessionId
+    if (id === null) {
+        url = url + '?sessionId=' + sessionId
         window.location.href = url
     } else {
         if (runOnce) {
@@ -56,7 +53,6 @@ export const initializeSessions = (dispatch, pairs, configurePairs) => {
                 }
             });
         }
-
     }
 }
 

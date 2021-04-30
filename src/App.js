@@ -20,8 +20,6 @@ const App = () => {
     const [notification, setNotification] = useState({show: false, text: ""});
 
     const configurePairs = result => {
-        console.log('configurePairs')
-        console.log(result)
         setPairs(result)
         setParticipantColors(getParticipantColors(result[0]))
     }
