@@ -75,6 +75,7 @@ const fetchSessionIfSessionIdIsSet = (configurePairs, dispatch, id) => {
     return fetchSession(configurePairs, dispatch, id)
         .then(result => {
             if (result === undefined) return [[]]
+            if(result.pairs.S === "[]") return [[]]
             return JSON.parse(result.pairs.S)
         })
 }
