@@ -10,15 +10,21 @@ import {getParticipantColors} from "./functions/colors-manager/colorsManager";
 import matcher from "./functions/macher/Matcher";
 import {initializeSessions, storeSession} from './sessionFactory'
 import {REMOVE_PARTICIPANT} from "./reducer/reducer";
+import useSound from 'use-sound';
+import beep from '../src/sounds/beep.mp3';
+
 
 const App = () => {
+    const dispatch = useDispatch()
     const state = useSelector(state => state)
     const participants = state.participants
+    const [play] = useSound(beep);
     const [pairs, setPairs] = useState([]);
-    const dispatch = useDispatch()
     const [participantColors, setParticipantColors] = useState({});
     const [displayNotification, setDisplayNotification] = useState("none");
     const [notification, setNotification] = useState({show: false, text: ""});
+
+    const displayZoomButton = pairs.length > 0
 
     const configurePairs = result => {
         setPairs(result)
@@ -39,14 +45,22 @@ const App = () => {
     }
 
     const onClearButtonClick = () => {
+
+        play()
+
         participants.map(participant => dispatch({
             type: REMOVE_PARTICIPANT,
             participant: participant
         }))
         setPairs([])
-        storeSession([], state.id)
+        storeSession([], state.sessionId)
         setNotification({show: true, text: "Removed all participants!"})
     }
+
+    const createZoomMeetings = () => {
+        window.location = `https://zoom.us/oauth/authorize?response_type=code&client_id=RyQwP1rURHCGyq8nJN9Q&redirect_uri=https%3A%2F%2Ftmarinkovic.github.io%2Ffeedback-pairs%2F?sessionId=${state.sessionId}`
+    }
+
 
     const onPairButtonClick = () => {
 
@@ -71,7 +85,6 @@ const App = () => {
                 return matcher([...participants])
                     .then(result => {
                         configurePairs(result)
-                        console.log(state)
                         storeSession(result, state.sessionId)
                     })
                     .then(_ => setDisplayNotification("none"))
@@ -120,7 +133,16 @@ const App = () => {
                     onClick={() => onShareButtonClick()}>
                     Share
                 </Button>
-
+                {/*<Button*/}
+                {/*    style={{*/}
+                {/*        display: displayZoomButton ? 'block' : 'none'*/}
+                {/*    }}*/}
+                {/*    className="zoom-button"*/}
+                {/*    variant="contained"*/}
+                {/*    color="default"*/}
+                {/*    onClick={() => createZoomMeetings()}>*/}
+                {/*    Make it zoom meeting*/}
+                {/*</Button>*/}
             </div>
             <Schedule schedule={pairs} colors={participantColors}/>
         </div>

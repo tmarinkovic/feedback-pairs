@@ -1,0 +1,1 @@
+export const BACKEND_URL ='https://quc7gr1g00.execute-api.eu-west-2.amazonaws.com/dev/'

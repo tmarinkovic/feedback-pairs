@@ -7,6 +7,17 @@ export const Pair = ({pair, colors}) => {
             <Paper key={`paper-${pair}`} className="paper">
                 <span style={{color:colors[pair[0]]}}>{pair[0]}</span> - <span style={{color:colors[pair[1]]}}>{pair[1]}</span>
             </Paper>
+            {/*<Button*/}
+            {/*    className="join-zoom-button"*/}
+            {/*    variant="contained"*/}
+            {/*    color="default">*/}
+            {/*    <img className="zoom-icon" src={process.env.PUBLIC_URL + '/zoom-icon.png'}  alt="zoom-icon"/>*/}
+            {/*    <span>Join</span>*/}
+            {/*    <span className="participant-info">*/}
+            {/*         <img className="participant-icon" src={process.env.PUBLIC_URL + '/user.png'}  alt="zoom-icon"/>*/}
+            {/*        <span className="participant-count">0</span>*/}
+            {/*    </span>*/}
+            {/*</Button>*/}
         </Grid>
     )
 }

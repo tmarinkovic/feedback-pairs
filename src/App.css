@@ -51,6 +51,49 @@
     width: 20%;
 }
 
+.zoom-button{
+    width: 100%;
+    background-color:#2d8cff !important;
+    color: white !important;
+}
+
+.zoom-icon{
+    width:20px;
+    height: 20px;
+}
+
+.participant-icon{
+    width:20px;
+    height: 20px;
+    position: relative;
+    left:-10px;
+}
+
+.join-zoom-button{
+    position: relative;
+    top:-10px;
+    width: 80% !important;
+    height: 25px;
+    background-color:#2d8cff !important;
+    color: white !important;
+}
+
+.participant-info{
+    height: 20px !important;
+    line-height: 20px !important;
+    position: absolute;
+    right:0;
+}
+
+.participant-count{
+    height: 20px !important;
+    line-height: 20px !important;
+    position: absolute;
+    right:3px;
+    font-size: 15px;
+    color: black;
+}
+
 .participant-input {
     max-width: 500px !important;
     width: 90% !important;

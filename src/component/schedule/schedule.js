@@ -6,6 +6,7 @@ export const Schedule = ({schedule, colors}) => {
     return (schedule.map(session => {
         sessionNumber++
         return <Session
+            className = "sessions"
             colors = {colors}
             key={`session-${sessionNumber}`}
             session={session}
